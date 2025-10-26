@@ -8,36 +8,45 @@ using System.Threading.Tasks;
 
 namespace TruthDetection.DAL.Data.Models
 {
-    public class Video
+    public class Video : ISoftDeleted
     {
 
 
-       
+
+
         public int ID { get; set; }
 
 
         public string Name { get; set; }
-        public bool DetectionResult { get; set; } // true => Liar , false => truth
+        // public bool DetectionResult { get; set; } // true => Liar , false => truth
 
 
         [Url]
-        public string URL { get; set; }
+        public string URL { get; set; } // Generated Using Guid 
 
-        public Guid URLID { get; set; } = Guid.NewGuid(); // automatically creates new GUID
 
-        public DateTimeOffset? Timestamp { get; set; } // the date of adding or recording a video 
-
+        public DateTime AddedAt { get; set; } // the date of adding or recording a video 
 
 
 
-        // Relations
 
-        [ForeignKey(nameof(ApplicationUser))]
-        public string NationaId { get; set; }
+        // Relations  
+        // Video has one "UserVideo"
+        //Video has more than one result ( every 20 sec there is a result )
+        // Video ID is pk , and fk in USer video table
 
+        [ForeignKey("ApplicationUser")]
+        public string UserID       { get; set; }
         public ApplicationUser User { get; set; }
+       
+
+        public ICollection<Result> Results { get; set; } // one or more
 
 
-        public ICollection<ResultDetails> Results { get; set; } // one or more
+
+
+        // implement softdeletion
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
     }
 }

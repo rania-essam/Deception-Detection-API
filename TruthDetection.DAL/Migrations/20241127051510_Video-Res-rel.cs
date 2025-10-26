@@ -27,7 +27,7 @@ namespace TruthDetection.DAL.Migrations
                         column: x => x.VideoID,
                         principalTable: "Video",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TruthDetection.DAL.Data.Models
 {
-    public class Role
+    public class Role : ISoftDeleted
     {
         public int ID { get; set; }
 
@@ -17,5 +17,8 @@ namespace TruthDetection.DAL.Data.Models
         // Relations
 
         public ICollection<UserRole>? userRoles { get; set;  }
+
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
     }
 }

@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace TruthDetection.DAL.Data.Models
 {
-    public class ResultDetails
+    public class ResultDetails : ISoftDeleted
     {
         public int ID { get; set; }
         public string Reason { get; set; }
 
         // relations
 
-        [ForeignKey(nameof(Video))]
-        public int VideoID { get; set; }
-        public Video video { get; set; }
+        [ForeignKey(nameof(Result))]
+        public int ResultID { get; set; }
+        public Result result{ get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
 
     }

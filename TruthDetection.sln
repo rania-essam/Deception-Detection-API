@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruthDetection.API", "TruthDetection.API\TruthDetection.API.csproj", "{40D44A97-CDE8-423A-9A09-0CB3F89A097D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TruthDetection.API", "TruthDetection.API\TruthDetection.API.csproj", "{40D44A97-CDE8-423A-9A09-0CB3F89A097D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruthDetection.BLL", "TruthDetection.BLL\TruthDetection.BLL.csproj", "{989E4867-29D6-44C2-9181-DA62B467A816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TruthDetection.BLL", "TruthDetection.BLL\TruthDetection.BLL.csproj", "{989E4867-29D6-44C2-9181-DA62B467A816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruthDetection.DAL", "TruthDetection.DAL\TruthDetection.DAL.csproj", "{180361C1-0927-47A0-AD83-326836CF6A08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TruthDetection.DAL", "TruthDetection.DAL\TruthDetection.DAL.csproj", "{180361C1-0927-47A0-AD83-326836CF6A08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

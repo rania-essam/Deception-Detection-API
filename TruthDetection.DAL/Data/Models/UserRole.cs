@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace TruthDetection.DAL.Data.Models
 {
-    public class UserRole  // pk and fk in OnModelCreating  FUNC ( Fluent api )
+    // pk and fk in OnModelCreating  FUNC ( Fluent api )
+    public class UserRole  : ISoftDeleted
     {
 
        
@@ -25,6 +26,9 @@ namespace TruthDetection.DAL.Data.Models
         public Role role { get; set; }
         // fk and pk in fluentapi
 
-     
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
+
+
     }
 }

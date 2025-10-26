@@ -167,8 +167,11 @@ namespace TruthDetection.DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -182,8 +185,14 @@ namespace TruthDetection.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTimeOffset?>("LastLogin")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -217,10 +226,6 @@ namespace TruthDetection.DAL.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePictureURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -247,6 +252,33 @@ namespace TruthDetection.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TruthDetection.DAL.Data.Models.Result", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DetectionResult")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("VideoID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("VideoID");
+
+                    b.ToTable("Result");
+                });
+
             modelBuilder.Entity("TruthDetection.DAL.Data.Models.ResultDetails", b =>
                 {
                     b.Property<int>("ID")
@@ -255,16 +287,22 @@ namespace TruthDetection.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VideoID")
+                    b.Property<int>("ResultID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("VideoID");
+                    b.HasIndex("ResultID");
 
                     b.ToTable("ResultDetails");
                 });
@@ -276,6 +314,12 @@ namespace TruthDetection.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -293,6 +337,12 @@ namespace TruthDetection.DAL.Migrations
 
                     b.Property<string>("NationalID")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -313,34 +363,30 @@ namespace TruthDetection.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<bool>("DetectionResult")
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NationaId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("Timestamp")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("URL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("URLID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Video");
                 });
@@ -396,7 +442,7 @@ namespace TruthDetection.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TruthDetection.DAL.Data.Models.ResultDetails", b =>
+            modelBuilder.Entity("TruthDetection.DAL.Data.Models.Result", b =>
                 {
                     b.HasOne("TruthDetection.DAL.Data.Models.Video", "video")
                         .WithMany("Results")
@@ -405,6 +451,17 @@ namespace TruthDetection.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("video");
+                });
+
+            modelBuilder.Entity("TruthDetection.DAL.Data.Models.ResultDetails", b =>
+                {
+                    b.HasOne("TruthDetection.DAL.Data.Models.Result", "result")
+                        .WithMany("Details")
+                        .HasForeignKey("ResultID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("result");
                 });
 
             modelBuilder.Entity("TruthDetection.DAL.Data.Models.UserRole", b =>
@@ -429,8 +486,8 @@ namespace TruthDetection.DAL.Migrations
             modelBuilder.Entity("TruthDetection.DAL.Data.Models.Video", b =>
                 {
                     b.HasOne("TruthDetection.DAL.Data.Models.ApplicationUser", "User")
-                        .WithMany("Videos")
-                        .HasForeignKey("UserId")
+                        .WithMany("uservideos")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -439,9 +496,14 @@ namespace TruthDetection.DAL.Migrations
 
             modelBuilder.Entity("TruthDetection.DAL.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Videos");
-
                     b.Navigation("userRoles");
+
+                    b.Navigation("uservideos");
+                });
+
+            modelBuilder.Entity("TruthDetection.DAL.Data.Models.Result", b =>
+                {
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("TruthDetection.DAL.Data.Models.Role", b =>

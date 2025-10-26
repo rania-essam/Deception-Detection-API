@@ -12,7 +12,7 @@ namespace TruthDetection.DAL.Data.Models
     // Identity user has default pk ( ID GUID string )
 
     [Index(nameof(NationalID) , IsUnique = true )]
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser , ISoftDeleted
     {
         // Email & Pass from IdentityUser
 
@@ -28,24 +28,23 @@ namespace TruthDetection.DAL.Data.Models
         public string LastName { get; set; }
 
 
-        [Url]
-        public string ProfilePictureURL { get; set; }
-        public DateTimeOffset? CreatedAt { get; set; }
+   
+        public string? ImageName { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTimeOffset? LastLogin { get; set; } = DateTime.UtcNow;
+        public DateTime? LastLogin { get; set; } = DateTime.UtcNow;
 
-    //    public bool IsDeleted { get; set; } = false;
+
 
 
 
         // Relations
 
-        public ICollection<Video>? Videos { get; set; } // nullable => user can have zero videos 
+        public ICollection<Video>? uservideos { get; set; } // nullable => user can have zero videos 
 
 
-        public ICollection<UserRole>? userRoles { get; set; } // nullable as user can be logged out 
-
-
-
+        public ICollection<UserRole>? userRoles { get; set; }  // nullable as user can be logged out 
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
     }
 }
